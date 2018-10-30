@@ -1,10 +1,14 @@
 import tweepy, json
 
-access_token = r'1057005035232604160-pVOp37d0C6ND3Cdka15OFUnoh94OHH'
-access_token_secret = r'X15XCCZSqPquCgtwB70uayulGzHAtkWYTlOlt9q6uFTSu'
-consumer_key = r'kFeFUxECg61jEIjpYnjLDDvoV'
-consumer_secret = r'SgQOy5SfR7PBz2vp3eFl9sYRPnJXWpIR5IS3LJf05f68mn3dor'
 
+with open('twitter.pw', 'r') as f:
+    twitter = f.read().split('\n')
+
+
+access_token = twitter[0]
+access_token_secret = twitter[1]
+consumer_key = twitter[2]
+consumer_secret = twitter[3]
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
