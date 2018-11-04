@@ -1,6 +1,5 @@
 import tweepy, json
 
-
 with open('twitter.pw', 'r') as f:
     twitter = f.read().split('\n')
 
