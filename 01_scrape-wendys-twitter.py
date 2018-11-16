@@ -5,32 +5,6 @@ import re
 import datetime
 import sys
 
-def img_dl(img_url, id):
-
-        # Download image in link
-        img_data = requests.get(img_url).content
-        file_loc = r'./output/imgs/i{}.jpg'.format(id)
-        with open(file_loc, 'wb') as handler:
-            handler.write(img_data)
-
-# From DataCamp -- Don't understand yet
-class MyStreamListener(tweepy.StreamListener):
-    def __init__(self, api=None):
-        super(MyStreamListener, self).__init__()
-        self.num_tweets = 0
-        self.file = open('tweets.txt', 'w')
-    
-    def on_status(self, status):
-        tweet = status._json
-        self.file.write(json.dumps(tweet) + '\n')
-        tweet_list.append(status)
-        self.num_tweets += 1
-        if self.num_tweets < 100:
-            return True
-        else:
-            return False
-        self.file.close()
-
 
 class MyTweetMediaDownloader():
 
@@ -41,10 +15,20 @@ class MyTweetMediaDownloader():
         
     def start(self):
         tweets = self.get_tweets()
+        print('Extracted tweets from ', self.user)
         media_dict = self.extract_text_media(tweets)
         now = datetime.datetime.now()
-        csv_filename = r'./output/tweet_info/wendys-tweets-{}.csv'.format(now.strftime(r'%m-%d-%H-%M'))
+        csv_filename = r'./output/tweet_info/{}-tweets-{}.csv'.format(self.user, now.strftime(r'%m-%d-%H-%M'))
         self.tweet_to_csv(media_dict, csv_filename)
+        print('Saved tweets from ', self.user)
+
+    def img_dl(self, img_url, idx):
+
+        # Download image in link
+        img_data = requests.get(img_url).content
+        file_loc = r'./output/imgs/{}-i{}.jpg'.format(self.user, idx)
+        with open(file_loc, 'wb') as handler:
+            handler.write(img_data)
 
     def get_tweets(self):
 
@@ -53,7 +37,7 @@ class MyTweetMediaDownloader():
         include_rts = False, exclude_replies=False)
         last_id = tweets[-1].id
         while True:
-            more_tweets = self.api.user_timeline(screen_name='Wendys',
+            more_tweets = self.api.user_timeline(screen_name=self.user,
             count=200,
             include_rts=False,
             exclude_replies=True,
@@ -78,7 +62,7 @@ class MyTweetMediaDownloader():
             media = status.entities.get('media', [])
             if len(media) > 0:
                 media_link = media[0]['media_url']
-                img_dl(media_link, media_id)
+                self.img_dl(media_link, media_id)
             else:
                 media_link = ''
             media_dict[media_id] = (media_text, media_link)
@@ -134,8 +118,17 @@ def main():
         credentials = sys.argv[1]
 
     api = twitter_access(credentials)
-    user = 'Wendys'
-    MyTweetMediaDownloader(api, user)
+    # https://people.com/food/best-fast-food-tweets/
+    # https://spoonuniversity.com/lifestyle/best-fast-food-chains-to-follow-on-twitter
+    # https://www.myrecipes.com/news/funny-fast-food-twitter-accounts 
+    users = [
+        'Wendys', 'DennysDiner', 'IHOP', 'redlobster', 'tacobell', 'DiGiorno',
+        'BurgerKing', 'Oreo', 'kitkat', 'Arbys', 'ChickfilA', 'dominos',
+        'WhiteCastle', 'ChipotleTweets', 'kfc'] 
+    # user = 'Wendys'
+    # MyTweetMediaDownloader(api, user)
+    [MyTweetMediaDownloader(api, u) for u in users]
+    
 
 
 if __name__ == '__main__':
