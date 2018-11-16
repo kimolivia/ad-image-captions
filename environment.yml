@@ -1,0 +1,7 @@
+name: torchImage
+dependencies:
+- python=3.6
+- scikit-image
+- numpy
+- matplotlib
+- peterjc123::pytorch 
