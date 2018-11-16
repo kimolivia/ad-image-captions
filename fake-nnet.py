@@ -17,7 +17,7 @@ csv_filename = './output/dummy-nnet-out.csv'
 
 # write tweet info into a csv
 with open(csv_filename, 'w') as f:
-    f.write('img_names, rand_cats\n')
+    f.write('img_names,rand_cats\n')
     for i in range(len(img_names)):
         row = '{},{}\n'.format(img_names[i], rand_cats[i])
         f.write(row)
