@@ -40,7 +40,6 @@ class TweetMediaDownloader():
                 }
             ]         
         '''
-
         tweets = self.api.user_timeline(screen_name = user, count = 200, 
         include_rts = False, exclude_replies=False)
         last_id = tweets[-1].id
@@ -95,7 +94,6 @@ class TweetMediaDownloader():
 
     def make_printable(self, txt):
         '''Remove emoticons, commas, and carriage returns.'''
-
         pat = r'[^\x00-\x7F]+'
         pat2 = r','
         pat3 = r'\n'
@@ -107,14 +105,12 @@ class TweetMediaDownloader():
 
     def img_dl(self, img_url, file_loc):
         '''Download image in link.'''
-
         img_data = requests.get(img_url).content
         with open(file_loc, 'wb') as handler:
             handler.write(img_data)
 
     def dwnld_images(self, media_dict, user, folder_root='./output/'):
         '''Download all images in media dict to folder.'''
-
         img_n = 0
         for k, (_, link) in media_dict.items():
             if link != '':
@@ -126,7 +122,6 @@ class TweetMediaDownloader():
         
     def tweet_to_csv(self, media_dict, csv_filename):
         '''Write all tweet information into a csv.'''
-
         with open(csv_filename, 'w') as f: 
             f.write('ID,Media,Link\n')
             for k,(text, link) in media_dict.items():
@@ -140,7 +135,6 @@ class TweetMediaDownloader():
 
 def twitter_access(credentials):
     '''Return tweepy API object using API keys.'''
-
     with open(credentials, 'r') as f:
         twitter = f.read().split('\n')
 
@@ -172,13 +166,13 @@ def main():
         https://spoonuniversity.com/lifestyle/best-fast-food-chains-to-follow-on-twitter
         https://www.myrecipes.com/news/funny-fast-food-twitter-accounts 
     '''
-    # users = [
-    #     'Wendys', 'DennysDiner', 'IHOP', 'redlobster', 'tacobell', 'DiGiorno',
-    #     'BurgerKing', 'Oreo', 'kitkat', 'Arbys', 'ChickfilA', 'dominos',
-    #     'WhiteCastle', 'ChipotleTweets', 'kfc'] 
+    users = [
+        'Wendys', 'DennysDiner', 'IHOP', 'redlobster', 'tacobell', 'DiGiorno',
+        'BurgerKing', 'Oreo', 'kitkat', 'Arbys', 'ChickfilA', 'dominos',
+        'WhiteCastle', 'ChipotleTweets', 'kfc'] 
+    # users = ['Wendys']
 
-    users = ['Wendys']
-
+    # Download tweets + users from popular fast food twitter accounts
     tweetMuncher = TweetMediaDownloader(api)
     time_stamp = datetime.now().strftime(r'%m-%d-%H-%M')
 
@@ -187,10 +181,10 @@ def main():
         twts_info = tweetMuncher.parse_tweets(twts_raw)
 
         csv_filename = f'./output/tweet_info/{u}-tweets-{time_stamp}.csv'
-        # tweetMuncher.tweet_to_csv(twts_info, csv_filename)
+        tweetMuncher.tweet_to_csv(twts_info, csv_filename)
 
         img_folder = './output/imgs'
-        # tweetMuncher.dwnld_images(twts_info, u, img_folder)
+        tweetMuncher.dwnld_images(twts_info, u, img_folder)
 
  
 
