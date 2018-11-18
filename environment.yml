@@ -4,4 +4,7 @@ dependencies:
 - scikit-image
 - numpy
 - matplotlib
-- peterjc123::pytorch 
+- pytorch::pytorch 
+- torchvision
+- conda-forge::tweepy
+- conda-forge::regex
