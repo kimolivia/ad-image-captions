@@ -3,6 +3,7 @@
 Flickr8k_Dataset/
 Food-11/
 <<<<<<< HEAD
+<<<<<<< HEAD
 imgs/
 =======
 imgs/
@@ -10,3 +11,9 @@ pytorch_tutorials/
 scratch.py
 Fake-Client/
 >>>>>>> b0ce9c461806bb7c70d940c2f0fb8b81d3a00908
+=======
+imgs/
+pytorch_tutorials/
+scratch.py
+Fake-Client/
+>>>>>>> fredcorpuz06-master
