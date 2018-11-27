@@ -9,6 +9,7 @@ The purpose of this project is to create an AI that generates effective advertis
 ## Partners 
 * Olivia Kim '19
 * Wisly Juganda '20
+* Fred Corpuz '20
 
 
 ## Project Description
