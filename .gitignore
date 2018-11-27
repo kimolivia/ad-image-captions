@@ -1,3 +1,8 @@
 *.pw
 .vscode
 Flickr8k_Dataset/
+Food-11/
+imgs/
+pytorch_tutorials/
+scratch.py
+Fake-Client/
